@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://b8ri6ykie86b3"]
+
+[ext_resource type="Script" uid="uid://8l28dbsx2qvf" path="res://TestLocator.cs" id="1_4bn4t"]
+[ext_resource type="Script" uid="uid://duftdkyp1jjii" path="res://GeoLocation/LocatorWindows.cs" id="2_i26v6"]
+[ext_resource type="Texture2D" uid="uid://cwfdyxps6nek0" path="res://icon.svg" id="3_0lr5j"]
+[ext_resource type="Script" uid="uid://bufluwfrnlu81" path="res://icon.gd" id="4_bquuk"]
+
+[node name="Node" type="Node" unique_id=646265137 node_paths=PackedStringArray("locatorWindows")]
+script = ExtResource("1_4bn4t")
+locatorWindows = NodePath("Node")
+
+[node name="Node" type="Node" parent="." unique_id=651991003]
+script = ExtResource("2_i26v6")
+
+[node name="Icon" type="Sprite2D" parent="." unique_id=110198139]
+position = Vector2(600, 377)
+texture = ExtResource("3_0lr5j")
+script = ExtResource("4_bquuk")

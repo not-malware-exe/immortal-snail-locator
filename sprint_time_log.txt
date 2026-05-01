@@ -1,0 +1,48 @@
+
+
+# CSE 310 - Sprint Time Log
+
+Name:
+
+Sprint #:
+
+## Instructions
+
+Record all CSE 310 work that you do either inside class or outside of class.  Include time learning, practicing, developing, testing, and documenting.  It is important to update this log every day.
+
+For the Category column, record one of the following:
+* IM - You are working on your Individual Module (Don't include Planning Meeting in class)
+* TP - You are working on your Team Project (include Team Project Work Days)
+* MTG - You are in one of the following class meetings: Planning, Stand-Up, Team Review, or Individual Review
+
+The expected minimum amount of time each Sprint for each category is as follows:
+
+|Categroy                       |Total Time (Hours:Minutes)|
+|-------------------------------|:------------------------:|
+|IM - Individual Module         |          10:00           |
+|TP - Team Project              |           4:00           |
+|Class Meetings                 |           4:00           | redundant
+|**TOTAL**                      |        **18:00**         |
+
+Date, Times, Sum, Sum Total, Description
+
+## IM Time Log
+4/24/2026 | 6:10PM - 7:59PM | 1:49 | 1:49 | Worked on implementing Windows Geolocator 
+4/27/2026 | 8:50AM - 9:16PM | 0:26 | 2:15 | Tweaked Geolocator attributes to increase update frequency 
+4/27/2026 | 6:47PM - 7:33PM | 0:47 | 3:02 | Worked on W02-Prepare: Module 1 Plan 
+4/28/2026 | I forgot        | 1:00 | 4:02 | Found open source map data to use to procedurally generate a map on https://www.naturalearthdata.com/downloads 
+4/29/2026 | 5:40PM - 7:20PM | 1:40 | 5:42 | Generated upside down greenland with map data
+5/1/2026  | 3:00OM - 2:30PM | 0:30 | 6:12 | Generated whole world with map data (excluding the one multipolygon land item)
+
+## TP Time Log
+4/29/2026 | 2:00PM - 3:00PM | 1:00 | 1:00 | Spent class period discussing project ideas and landed on online Zombie tag/Infection
+
+
+## Sprint Totals
+
+|Categroy                       |Total Time (Hours:Minutes)|
+|-------------------------------|:------------------------:|
+|IM - Individual Module         |                          |
+|TP - Team Project              |                          |
+|Class Meetings                 |                          |
+|**TOTAL**                      |                          |
