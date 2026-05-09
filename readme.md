@@ -48,3 +48,4 @@ The following items I can hypothetically fix, improve, and/or add to this projec
 * [ ] I can add a start screen, and a lose screen if the snail touches you
 * [ ] I can either have a save file that stores and loads game state when you leave/rejoin, or I can find a way to have the app continue to run in the background.
 * [ ] Have better file management
+* [ ] Get GPS for Android and IOS to work
