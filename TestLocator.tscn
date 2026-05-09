@@ -1,13 +1,32 @@
-[gd_scene format=3 uid="uid://b8ri6ykie86b3"]
+[gd_scene format=3 uid="uid://d2j0eg5xjh7ig"]
 
-[ext_resource type="Script" uid="uid://8l28dbsx2qvf" path="res://TestLocator.cs" id="1_4bn4t"]
 [ext_resource type="Script" uid="uid://duftdkyp1jjii" path="res://GeoLocation/LocatorWindows.cs" id="2_i26v6"]
 [ext_resource type="Texture2D" uid="uid://cwfdyxps6nek0" path="res://icon.svg" id="3_0lr5j"]
 [ext_resource type="Script" uid="uid://bufluwfrnlu81" path="res://icon.gd" id="4_bquuk"]
 
-[node name="Node" type="Node" unique_id=646265137 node_paths=PackedStringArray("locatorWindows")]
-script = ExtResource("1_4bn4t")
-locatorWindows = NodePath("Node")
+[sub_resource type="CSharpScript" id="CSharpScript_i26v6"]
+script/source = "using Godot;
+using System;
+
+public partial class TestLocator : Node
+{
+	[Export]
+	LocatorWindows locatorWindows = new LocatorWindows();
+
+	// Called when the node enters the scene tree for the first time.
+	public override void _Ready()
+	{
+	}
+
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _Process(double delta)
+	{
+	}
+}
+"
+
+[node name="Node" type="Node" unique_id=646265137]
+script = SubResource("CSharpScript_i26v6")
 
 [node name="Node" type="Node" parent="." unique_id=651991003]
 script = ExtResource("2_i26v6")

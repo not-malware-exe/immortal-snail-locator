@@ -2,9 +2,9 @@
 
 # CSE 310 - Sprint Time Log
 
-Name:
+Name: Brigham Peterson
 
-Sprint #:
+Sprint #: 1
 
 ## Instructions
 
@@ -21,28 +21,39 @@ The expected minimum amount of time each Sprint for each category is as follows:
 |-------------------------------|:------------------------:|
 |IM - Individual Module         |          10:00           |
 |TP - Team Project              |           4:00           |
-|Class Meetings                 |           4:00           | redundant
+|Class Meetings                 |           4:00           |
 |**TOTAL**                      |        **18:00**         |
 
 Date, Times, Sum, Sum Total, Description
 
 ## IM Time Log
-4/24/2026 | 6:10PM - 7:59PM | 1:49 | 1:49 | Worked on implementing Windows Geolocator 
-4/27/2026 | 8:50AM - 9:16PM | 0:26 | 2:15 | Tweaked Geolocator attributes to increase update frequency 
-4/27/2026 | 6:47PM - 7:33PM | 0:47 | 3:02 | Worked on W02-Prepare: Module 1 Plan 
-4/28/2026 | I forgot        | 1:00 | 4:02 | Found open source map data to use to procedurally generate a map on https://www.naturalearthdata.com/downloads 
-4/29/2026 | 5:40PM - 7:20PM | 1:40 | 5:42 | Generated upside down greenland with map data
-5/1/2026  | 3:00OM - 2:30PM | 0:30 | 6:12 | Generated whole world with map data (excluding the one multipolygon land item)
+4/24/2026 | 6:10PM - 7:59PM | 1:49 | 1:49   | Worked on implementing Windows Geolocator 
+4/27/2026 | 8:50AM - 9:16AM | 0:26 | 2:15   | Tweaked Geolocator attributes to increase update frequency 
+4/27/2026 | 6:47PM - 7:33PM | 0:47 | 3:02   | Worked on W02-Prepare: Module 1 Plan 
+4/28/2026 | I forgot        | 1:00 | 4:02   | Found open source map data to use to procedurally generate a map on https://www.naturalearthdata.com/downloads 
+4/29/2026 | 5:40PM - 7:20PM | 1:40 | 5:42   | Generated upside down greenland with map data
+5/1/2026  | 3:00PM - 2:30PM | 0:30 | 6:12   | Generated whole world with map data (excluding the one multipolygon land item)
+5/6/2026  | 8:40PM - 9:50PM | 1:10 | 7:22   | Included multipolygon land masses
+5/6/2026  | 2:00PM - 3:00PM | 1:00 | 8:22   | Finished breaking down GEOJson loading into multiple classes (for Polygon geometry)
+5/6/2026  | 5:11PM - 7:00PM | 1:49 | 10:11  | Switched over for Polygon mesh to MultiMesh for better performance and ability to generate lines
+5/7/2026  | 3:12PM - 4:53PM | 1:41 | 11:52  | Can now generate tri-strip lines for rivers
+5/7/2026  | 5:22PM - 7:08PM | 1:46 | 13:38  | Finished getting the world to generate and added ability to bake geometry in scene editor to same on loading time and performance
+5/8/2026  | 9:30PM - 12:20PM| 2:50 | 16:28  | Created player and snail markers, snail moves but by using radial units
+5/8/2026  | 5:34PM - 9:58PM | 4:24 | 20:52  | Prepped locator to be tested on Android and got markers to calculate distance and move taking earth's curvature into consideration (watching the snail marker move around the earths curvature is mesmerizing)
 
 ## TP Time Log
 4/29/2026 | 2:00PM - 3:00PM | 1:00 | 1:00 | Spent class period discussing project ideas and landed on online Zombie tag/Infection
+5/4/2026  | 2:00PM - 3:00PM | 1:00 | 2:00 | Spent class period attempting to discuss requirements for Zombie Tag, also set up github enviroment
+5/8/2026  | 3:00PM - 5:00PM | 2:00 | 4:00 | Spent 1.5 hours drawing diagrams on how the user will navigate the program, 0.5 hours after doing research and learning how difficult running Godot apps on the background of Android and IOS will be difficult
 
+## MTG
+4 stamps = 4:00
 
 ## Sprint Totals
 
 |Categroy                       |Total Time (Hours:Minutes)|
 |-------------------------------|:------------------------:|
-|IM - Individual Module         |                          |
-|TP - Team Project              |                          |
-|Class Meetings                 |                          |
-|**TOTAL**                      |                          |
+|IM - Individual Module         |           20:52          |
+|TP - Team Project              |           4:00           |
+|Class Meetings                 |           4:00           |
+|**TOTAL**                      |           28:52          |

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://pom7lqvdyb5s"]
+
+[ext_resource type="Script" uid="uid://c61mmcrh2r5an" path="res://GeoLocation/Geolocation-Csharp-Wrapper-main/Geolocation-Csharp-Wrapper-main/Geolocation.cs" id="1_n1wy5"]
+
+[node name="Geolocation" type="Node" unique_id=711495533]
+script = ExtResource("1_n1wy5")

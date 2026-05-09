@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://dvneya1bmj8g"]
+
+[ext_resource type="Script" uid="uid://12ptliy0bqsf" path="res://scenes/markers/PlayerAi.cs" id="1_1row8"]
+[ext_resource type="Script" uid="uid://blxroueowdlwg" path="res://scenes/markers/Marker.cs" id="1_q0s71"]
+[ext_resource type="Script" uid="uid://dq5ddadsel71p" path="res://test_camera_2d.gd" id="3_auqlx"]
+[ext_resource type="Script" uid="uid://dy8h0m0pqq4m3" path="res://scenes/markers/marker_visual.gd" id="3_q0s71"]
+
+[sub_resource type="Gradient" id="Gradient_q0s71"]
+offsets = PackedFloat32Array(0, 0.31497797, 1)
+colors = PackedColorArray(1, 1, 1, 0.7764706, 0.45, 0.9725, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_q0s71"]
+gradient = SubResource("Gradient_q0s71")
+width = 32
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[sub_resource type="Gradient" id="Gradient_73lmu"]
+offsets = PackedFloat32Array(0, 0.9669604, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_0q2rq"]
+gradient = SubResource("Gradient_73lmu")
+width = 128
+height = 128
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[sub_resource type="Gradient" id="Gradient_0q2rq"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_4khrw"]
+gradient = SubResource("Gradient_0q2rq")
+
+[sub_resource type="Curve" id="Curve_4khrw"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_qxpgu"]
+curve = SubResource("Curve_4khrw")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_73lmu"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_qxpgu")
+color_ramp = SubResource("GradientTexture1D_4khrw")
+
+[node name="PlayerMarker" type="Node2D" unique_id=797820524 groups=["Player"]]
+script = ExtResource("1_q0s71")
+metadata/_custom_type_script = "uid://blxroueowdlwg"
+
+[node name="PlayerAI" type="Node" parent="." unique_id=1153192139]
+script = ExtResource("1_1row8")
+
+[node name="ControllerAI" type="Node" parent="." unique_id=1857713012]
+
+[node name="MarkerVisual" type="Sprite2D" parent="." unique_id=762818683 node_paths=PackedStringArray("markerPingParticles")]
+texture = SubResource("GradientTexture2D_q0s71")
+script = ExtResource("3_q0s71")
+markerPingParticles = NodePath("MarkerPingParticles")
+
+[node name="MarkerPingParticles" type="GPUParticles2D" parent="MarkerVisual" unique_id=1225966406]
+modulate = Color(0.4509804, 0.972549, 1, 1)
+amount = 1
+texture = SubResource("GradientTexture2D_0q2rq")
+process_material = SubResource("ParticleProcessMaterial_73lmu")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1947710735]
+zoom = Vector2(0.1, 0.1)
+script = ExtResource("3_auqlx")
+allowHorizonalInput = false

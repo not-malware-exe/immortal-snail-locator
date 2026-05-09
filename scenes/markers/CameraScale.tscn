@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://n3ao5t1qw57p"]
+
+[ext_resource type="Script" uid="uid://mwsefar48cr0" path="res://scenes/markers/CameraScale.cs" id="1_lb34o"]
+
+[node name="CameraScale" type="Node" unique_id=390612511]
+script = ExtResource("1_lb34o")

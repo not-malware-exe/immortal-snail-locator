@@ -2,59 +2,10 @@
 using System.Linq;
 using Godot;
 using Godot.Collections;
-using Windows.Foundation.Metadata;
 
-[GlobalClass]
 public partial class GeoJsonLoader : Node
 {
-    public override void _Ready()
-    {
-        base._Ready();
-        
-        float t1 = Time.GetTicksMsec();
-
-        Dictionary<string,Variant> landJson = loadJson("res://GeoJson/ne_50m_land.json");
-
-        GD.Print("Load Json: ", Time.GetTicksMsec()-t1);
-        t1 = Time.GetTicksMsec();
-
-        Array<Dictionary<string,Variant>> landFeatures = GetFeatures(landJson);
-
-        Array<Vector2> polygon = [];
-        Array polygons = [];
-
-        foreach (Dictionary<string,Variant> landFeature in landFeatures)
-        {
-            Dictionary<string,Variant> landGeometry = GetGeometry(landFeature);
-            (string landGeoType, Array<Variant> landCoordsData) = ReadGeometry(landGeometry);
-
-            if (landGeoType != "Polygon") continue;
-
-            Array<Vector2> landCoords = GetPolygonCoords(landCoordsData);
-
-            Array<int> polygon_points = [];
-            for (int i = 0; i < landCoords.Count; i++) polygon_points.Add(i + polygon.Count);
-
-            polygon.AddRange(landCoords);
-            polygons.Add(polygon_points.ToArray());
-        }
-
-        GD.Print("Getting All Coords: ", Time.GetTicksMsec()-t1);
-        t1 = Time.GetTicksMsec();
-
-        Polygon2D newPolygon2D = GetNode<Polygon2D>("Polygon2D");
-        newPolygon2D.Polygon = polygon.ToArray();
-        newPolygon2D.Polygons = polygons;
-
-        GD.Print("Setting Polygon2D: ", Time.GetTicksMsec()-t1);
-
-        GD.Print("Bytes: ", GD.VarToBytes(polygon.ToArray()).Count() + GD.VarToBytes(polygons).Count());
-    }
-
-    public override void _Process(double delta)
-    {
-        GD.Print(delta);
-    }
+    private Dictionary<string,Array<GeoFeature>> loadedGeoFeatures = [];
 
     public static Dictionary<string,Variant> loadJson(string path)
 	{
@@ -66,11 +17,21 @@ public partial class GeoJsonLoader : Node
         return json;
 	}
 
-    public static Array<Dictionary<string,Variant>> GetFeatures(Dictionary<string,Variant> GeoJson)
+    public void LoadGeoFeatures(string collectionName, Dictionary<string,Variant> geoJson)
+    {
+        if (!loadedGeoFeatures.ContainsKey(collectionName))
+        {
+            Array<Dictionary<string,Variant>> featuresData = GetFeaturesData(geoJson);
+            Array<GeoFeature> geoFeatures = GetGeoFeatures(featuresData);
+            loadedGeoFeatures.Add(collectionName,geoFeatures);
+        }
+    }
+
+    public static Array<Dictionary<string,Variant>> GetFeaturesData(Dictionary<string,Variant> geoJson)
     {
         Variant featuresVar;
         
-        if (GeoJson.TryGetValue("features",out featuresVar))
+        if (geoJson.TryGetValue("features",out featuresVar))
         {
             return featuresVar.AsGodotArray<Dictionary<string,Variant>>();
         }
@@ -78,63 +39,114 @@ public partial class GeoJsonLoader : Node
         return [];
     }
 
-    public static Dictionary<string,Variant> GetGeometry(Dictionary<string,Variant> feature)
+    public static Array<GeoFeature> GetGeoFeatures(Array<Dictionary<string,Variant>> featuresData)
     {
-        Variant geometryVar;
+        Array<GeoFeature> geoFeatures = [];
 
-        if (feature.TryGetValue("geometry",out geometryVar))
+        foreach (Dictionary<string,Variant> featureData in featuresData)
         {
-            return geometryVar.AsGodotDictionary<string,Variant>();
+            GeoFeature geoFeature = new GeoFeature();
+            geoFeature.importFeatureData(featureData);
+            geoFeatures.Add(geoFeature);
         }
 
-        return [];
+        return geoFeatures;
     }
 
-    public static (string, Array<Variant>) ReadGeometry(Dictionary<string,Variant> geometry)
+    public (Array<Vector2>,Array<int>) GetFeatureCollectionTriPolyMeshData(string collectionName)
     {
-        Variant geoTypeVar;
-        Variant coordsVar;
+        Array<GeoFeature> features = loadedGeoFeatures[collectionName];
+        Array<Vector2> points = [];
+        Array<int> indices = [];
 
-        if (geometry.TryGetValue("type", out geoTypeVar))
+        foreach (GeoFeature feature in features)
         {
-            if (geometry.TryGetValue("coordinates", out coordsVar))
-            {
-                return (geoTypeVar.AsString(), coordsVar.AsGodotArray<Variant>());
+            GeoGeometry geoGeometry = feature.GetGeoGeometry();
 
-                
-            }
+            int i_offset = points.Count;
+            points.AddRange(geoGeometry.GetGeometryPoints());
+            indices.AddRange(geoGeometry.GetGeometryTriangularIndices(i_offset));
         }
 
-        return ("",[]);
+        return (points, indices);
     }
 
-
-    // switch (geoType)
-    // {
-    //     case "Polygon":
-    //         return (geoType,)
-    //         break;
-    //     case "MultiPolygon":
-
-    //         break;
-    //     case "LineString":
-
-    //         break;
-    //     case "MultiLineString":
-
-    //         break;
-    // }
-
-    public static Array<Vector2> GetPolygonCoords(Array<Variant> coordsData)
+    public (Array<Vector2>,Array<int>) GetFeatureCollectionTriStripMeshData(string collectionName, float width = 0.01f)
     {
-        Array<Vector2> coords = [];
+        Array<GeoFeature> features = loadedGeoFeatures[collectionName];
+        Array<Vector2> points = [];
+        Array<int> indices = [];
 
-        foreach (Array<double> coordData in coordsData[0].AsGodotArray<Array<double>>())
+        foreach (GeoFeature feature in features)
         {
-            coords.Add(new Vector2((float)coordData[0],(float)coordData[1]));
+            GeoGeometry geoGeometry = feature.GetGeoGeometry();
+
+            int i_offset = points.Count;
+            points.AddRange(geoGeometry.GetGeometryTriangleStripPoints(width));
+            indices.AddRange(geoGeometry.GetGeometryTriangleStripIndices(i_offset/2));
         }
 
-        return coords;
+        return (points, indices);
+    }
+    
+    public (Array<Vector2>,Array<int>) GetFeatureCollectionLineMeshData(string collectionName)
+    {
+        Array<GeoFeature> features = loadedGeoFeatures[collectionName];
+        Array<Vector2> points = [];
+        Array<int> indices = [];
+
+        foreach (GeoFeature feature in features)
+        {
+            GeoGeometry geoGeometry = feature.GetGeoGeometry();
+
+            int i_offset = points.Count;
+            points.AddRange(geoGeometry.GetGeometryPoints());
+            indices.AddRange(geoGeometry.GetGeometryLineIndices(i_offset));
+        }
+
+        return (points, indices);
+    }
+
+    public static void SetMultiMeshInstance2DTriangleMesh(MultiMeshInstance2D multiMeshInstance, Array<Vector2> points, Array<int> pointIndices)
+    {
+        // 1. Create the Mesh
+        ArrayMesh mesh = new ArrayMesh();
+        Array arrays = new Array();
+        arrays.Resize((int)Mesh.ArrayType.Max);
+
+        Vector2[] vertices = points.ToArray();
+        int[] indices = pointIndices.ToArray();
+
+        arrays[(int)Mesh.ArrayType.Vertex] = vertices;
+        arrays[(int)Mesh.ArrayType.Index] = indices;
+        mesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arrays);
+        
+        // 2. Set up the MultiMesh
+        multiMeshInstance.Multimesh = new MultiMesh();
+        multiMeshInstance.Multimesh.Mesh = mesh;
+        multiMeshInstance.Multimesh.InstanceCount = 1; // 
+        multiMeshInstance.Multimesh.SetInstanceTransform2D(0, new Transform2D(0, Vector2.Zero));
+    }
+
+    public static void SetMultiMeshInstance2DLineMesh(MultiMeshInstance2D multiMeshInstance, Array<Vector2> points, Array<int> pointIndices)
+    {
+        // 1. Create the Mesh
+        ArrayMesh mesh = new ArrayMesh();
+        Array arrays = new Array();
+        arrays.Resize((int)Mesh.ArrayType.Max);
+
+        Vector2[] vertices = points.ToArray();
+        int[] indices = pointIndices.ToArray();
+
+        arrays[(int)Mesh.ArrayType.Vertex] = vertices;
+        arrays[(int)Mesh.ArrayType.Index] = indices;
+        mesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Lines, arrays);
+        
+        // 2. Set up the MultiMesh
+        multiMeshInstance.Multimesh = new MultiMesh();
+        multiMeshInstance.Multimesh.Mesh = mesh;
+        multiMeshInstance.Multimesh.InstanceCount = 1; // 
+        multiMeshInstance.Multimesh.SetInstanceTransform2D(0, new Transform2D(0, Vector2.Zero));
     }
 }
 

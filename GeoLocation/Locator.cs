@@ -8,7 +8,7 @@ public partial class Locator : Node
 	{
 	}
 
-	public Vector2 GetGPSCoords()
+	public virtual Vector2 GetGPSCoords()
     {
         return new Vector2(0.0f,0.0f);
     }

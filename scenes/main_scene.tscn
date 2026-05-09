@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://btpo7oj3e2vsl"]
+
+[ext_resource type="PackedScene" uid="uid://bgj2ee1w20kn7" path="res://scenes/world_map.tscn" id="1_w2twt"]
+[ext_resource type="PackedScene" uid="uid://dvneya1bmj8g" path="res://scenes/markers/playerMarker.tscn" id="2_pw63i"]
+[ext_resource type="PackedScene" uid="uid://bpflag456opkl" path="res://scenes/markers/snail_marker.tscn" id="3_7ykc4"]
+
+[node name="MainScene" type="Node2D" unique_id=2083731061]
+scale = Vector2(100, 100)
+
+[node name="WorldMap" parent="." unique_id=992491095 instance=ExtResource("1_w2twt")]
+
+[node name="PlayerMarker" parent="." unique_id=1693519798 instance=ExtResource("2_pw63i")]
+position = Vector2(-111.778, -43.819)
+scale = Vector2(0.01, 0.01)
+
+[node name="SnailMarker" parent="." unique_id=1927185858 instance=ExtResource("3_7ykc4")]
+position = Vector2(-0.8899994, 0.20000458)
+scale = Vector2(0.01, 0.01)

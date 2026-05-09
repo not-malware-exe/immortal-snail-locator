@@ -15,13 +15,13 @@ public partial class LocatorWindows : Locator
 	public override void _Ready()
 	{
 		base._Ready();
-        StartLocationUpdatesAsync();
+        Task.Run(StartLocationUpdatesAsync);
 	}
 
 
-	new public Vector2 GetGPSCoords()
-	{
-	    return _currentLocation;
+	public override Vector2 GetGPSCoords()
+    {
+        return _currentLocation;
     }
 
 	private async Task StartLocationUpdatesAsync()
@@ -57,7 +57,7 @@ public partial class LocatorWindows : Locator
 	{
 	    var pos = args.Position.Coordinate.Point.Position;
 	
-	    _currentLocation = new Vector2((float)pos.Latitude, (float)pos.Longitude);
+	    _currentLocation = new Vector2((float)pos.Longitude, (float)pos.Latitude);
 		GD.Print(_currentLocation);
 	}
 

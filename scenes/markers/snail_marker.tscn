@@ -1,0 +1,65 @@
+[gd_scene format=3 uid="uid://bpflag456opkl"]
+
+[ext_resource type="PackedScene" uid="uid://bq1nkxvq0ytfo" path="res://scenes/markers/marker.tscn" id="1_wlfnc"]
+[ext_resource type="Script" uid="uid://6arjiw0s2so2" path="res://scenes/markers/SnailAi.cs" id="2_n0g4t"]
+[ext_resource type="Script" uid="uid://dy8h0m0pqq4m3" path="res://scenes/markers/marker_visual.gd" id="2_p6apg"]
+
+[sub_resource type="Gradient" id="Gradient_n0g4t"]
+offsets = PackedFloat32Array(0, 0.31497797, 1)
+colors = PackedColorArray(1, 1, 1, 0.7764706, 1, 0.45, 0.45, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_hn7q5"]
+gradient = SubResource("Gradient_n0g4t")
+width = 32
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[sub_resource type="Gradient" id="Gradient_q0s71"]
+offsets = PackedFloat32Array(0, 0.9669604, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_i76vs"]
+gradient = SubResource("Gradient_q0s71")
+width = 128
+height = 128
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[sub_resource type="Gradient" id="Gradient_m5dnp"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_73lmu"]
+gradient = SubResource("Gradient_m5dnp")
+
+[sub_resource type="Curve" id="Curve_pdqtf"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_qxpgu"]
+curve = SubResource("Curve_pdqtf")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ptfh3"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_qxpgu")
+color_ramp = SubResource("GradientTexture1D_73lmu")
+
+[node name="SnailMarker" unique_id=1927185858 instance=ExtResource("1_wlfnc")]
+
+[node name="SnailAI" type="Node" parent="." index="0" unique_id=2037399759]
+script = ExtResource("2_n0g4t")
+speed = 1000000.0
+
+[node name="MarkerVisual" type="Sprite2D" parent="." index="1" unique_id=361206085 node_paths=PackedStringArray("markerPingParticles")]
+texture = SubResource("GradientTexture2D_hn7q5")
+script = ExtResource("2_p6apg")
+markerPingParticles = NodePath("MarkerPingParticles")
+
+[node name="MarkerPingParticles" type="GPUParticles2D" parent="MarkerVisual" index="0" unique_id=2029728238]
+modulate = Color(1, 0.4509804, 0.4509804, 1)
+amount = 1
+texture = SubResource("GradientTexture2D_i76vs")
+process_material = SubResource("ParticleProcessMaterial_ptfh3")
